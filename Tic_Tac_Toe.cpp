@@ -29,7 +29,7 @@ bool CharInvert(bool mark){
 }
 
 void inputMatrix(){
-	int num = 0;
+	int num = 0, i = 0, j = 0;;
 	bool mark = true, flag = false, cut =  false;
 	char cross = 'X', circle = 'O', curChar;
 	while(flag != true){
@@ -43,13 +43,9 @@ void inputMatrix(){
 			for (int j = 0; j <= 2 ; j++){
 				if (arr[i][j] == num){
 					arr[i][j] = curChar;
-					cut = true;
 					break;
 				}
-				cout <<" i = "<< i <<" j = "<<j<<"\n";
 			}
-			if (cut == true) break;
-			if (i == 2) flag = true;
 		}
 	}
 }
