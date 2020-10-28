@@ -1,8 +1,11 @@
 #include <iostream>
 using namespace std;
 
-int arr[3][3] = {0};
+int arr[3][4] = {0};
+char cross = 'X', circle = 'O';
+bool mark;
 
+//Matrix Index Generation Function
 void matrixGen(){
 	// This function generates index for Tic Tac Toe array
 	int count = 1;
@@ -14,6 +17,7 @@ void matrixGen(){
 	}
 }
 
+//Matrix Display Function
 void matrixDisp(){
 	// Displaying the Tic Tac Toe array
 	for (int i = 0; i < 3; i++){
@@ -22,31 +26,44 @@ void matrixDisp(){
 	}
 }
 
-bool CharInvert(bool mark){
-	if (mark == true) mark = false;
-	else mark = true;
-	return mark;
+//Turn Selection Function
+char CharInvert(){
+	if (mark == true){
+		mark = false;
+		return cross;
+	}
+	else{
+		mark = true;
+		return circle;
+	}
+	
 }
 
-void inputMatrix(){
-	int num = 0, i = 0, j = 0;;
-	bool mark = true, flag = false, cut =  false;
-	char cross = 'X', circle = 'O', curChar;
-	while(flag != true){
-		mark = CharInvert(mark); 
-		if (mark == true) curChar = cross;
-		else curChar = circle;
-		matrixDisp();
-		cout <<"\n "<< curChar <<"'s turn \n Enter the Index Number: ";
-		cin >> num;
-		for (int i = 0 ; i <= 2; i++){
-			for (int j = 0; j <= 2 ; j++){
-				if (arr[i][j] == num){
-					arr[i][j] = curChar;
-					break;
-				}
+bool checker(int* num, bool* mark, char* curChar){
+	for (int i = 0; i <= 2; i++){
+		for (int j = 0; j <= 2 ; j++){
+			if (arr[i][j] == *num) arr[i][j] = *curChar;
+			if (*mark == true){
+				if (arr[i][j] < 10) *mark = false;
 			}
 		}
+	}
+	return *mark;
+}
+
+//Input Stream Function
+void MatrixInput(){
+	bool mark = false;
+	int num = 0;
+	while (mark == false){
+		mark = true;
+		char curChar = CharInvert();
+		cout << "\n " << curChar << "'s Turn now !" << endl;
+		cout <<"\n Enter the Index : ";
+		cin >> num;
+		mark = checker(&num, &mark, &curChar);
+		system("cls");
+		matrixDisp();
 	}
 }
 
@@ -54,13 +71,12 @@ void inputMatrix(){
 
 int main(){
     
-	std::cout <<"\n Generating Index for Matrix !" << std::endl;
+	cout <<"\n Generating Index for Matrix !" << endl;
 	matrixGen();
 	cout <<"\n Matrix Index Generated Succesfully !" << endl;
 	matrixDisp();
 	cout <<"\n Initializing Input Stream !";
-	inputMatrix();
-	matrixDisp();
+	MatrixInput();
 	
 	return 0;
 }
