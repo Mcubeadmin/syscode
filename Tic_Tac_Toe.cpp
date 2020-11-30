@@ -10,7 +10,7 @@ bool flip;
 void matrixGen(){
 	// This function generates index numbers for Tic Tac Toe array (1 to 9)
 	int count = 1;
-	
+
 	for (int i = 0; i < 3; i++){
 		for (int j = 0; j < 3; j++){
 			arr[i][j] = count;
@@ -21,14 +21,19 @@ void matrixGen(){
 
 //Matrix Display Function
 void matrixDisp(){
+	cout << "   1  2  3";
 	for (int i = 0; i < 3; i++){
-		cout << endl;
+    cout << endl;
+    
+	cout << i + 1 << "";
 		for (int j = 0; j < 3; j++){
+      		
 			if (arr[i][j] == 79) cout <<"  "<< 'O';		//ASCII 79 is O
 			else if (arr[i][j] == 88) cout <<"  "<< 'X';//ASCII 88 is X
-			else cout <<"  "<< arr[i][j];
+			else cout <<"  *";
 		}
 	}
+	cout << endl;
 }
 
 //Turn Selection Function
@@ -85,7 +90,7 @@ char algoMain(bool* mark){
 }
 
 //this function replaces the array element with input 
-bool checker(int* num, bool* mark, char* curChar){
+void checker(int* num, bool* mark, char* curChar){
 	for (int i = 0; i <= 2; i++){
 		for (int j = 0; j <= 2 ; j++){
 			if (arr[i][j] == *num){ 		//searching the number
@@ -97,7 +102,6 @@ bool checker(int* num, bool* mark, char* curChar){
 			}
 		}
 	}
-	return *mark;
 }
 
 //Input Stream Function
@@ -119,7 +123,7 @@ void MatrixInput(){
 		cout <<"\n\t\t MCUBE COMPUTING SYSTEMS \n\t\t Tic Tac Toe ";
 		cout <<"\n Generating Index for Matrix !" << endl;
 		
-		mark = checker(&num, &mark, &curChar);
+		checker(&num, &mark, &curChar);
 		winner = algoMain(&mark);
 		matrixDisp();
 		
