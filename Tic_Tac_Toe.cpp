@@ -62,7 +62,7 @@ char algoMain(bool* mark){
 	}
 	
 	//row and column checking
-	for (i; i <= 2; i++){
+	for (; i <= 2; i++){
 		j = 0;
 
 		//horizontal checking 
@@ -79,8 +79,6 @@ char algoMain(bool* mark){
 				return arr[j][i];
 			}
 		}	
-		
-		if (*mark == true) break;
 	}
 
 	return '0';
