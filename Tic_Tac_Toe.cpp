@@ -1,13 +1,8 @@
 #include <iostream>
 using namespace std;
 
-//Global Variables
-int arr[3][4] = {0};
-char cross = 'X', circle = 'O', winner = '0';
-
-
 //Matrix Index Generation Function
-void matrixGen(){
+void matrixGen(int arr[][3]){
 	// This function generates index numbers for Tic Tac Toe array (1 to 9)
 	int count = 1;
 
@@ -20,8 +15,8 @@ void matrixGen(){
 }
 
 //Matrix Display Function
-void matrixDisp(){
-	cout << "   1  2  3";
+void matrixDisp(int arr[][3]){
+	cout << "  1  2  3";
 	for (int i = 0; i < 3; i++){
     cout << endl;
     
@@ -38,8 +33,7 @@ void matrixDisp(){
 
 
 //this is the main game algorithm 
-char algoMain(bool* mark){
-	int i = 0, j = 0;
+char algoMain(int arr[][3], bool* mark){
 
 	//diagonal checking 
 	if (arr[0][0] == arr[1][1]){
@@ -57,7 +51,8 @@ char algoMain(bool* mark){
 	}
 	
 	//row and column checking
-	for (; i <= 2; i++){
+	int i, j;
+	for (i = 0; i <= 2; i++){
 		j = 0;
 
 		//horizontal checking 
@@ -79,33 +74,16 @@ char algoMain(bool* mark){
 	return '0';
 }
 
-//this function replaces the array element with input 
-void checker(int* num, bool* mark, char* curChar){
-	for (int i = 0; i <= 2; i++){
-		for (int j = 0; j <= 2 ; j++){
-			if (arr[i][j] == *num){ 		//searching the number
-				arr[i][j] = *curChar;		//replacing
-
-				if (*curChar == cross) *curChar = circle;	//inverting the turn of player (O or X)
-				else *curChar = cross;
-			}
-
-			if (*mark == true){				
-				if (arr[i][j] < 10) *mark = false; //if true, game did not end
-			}
-		}
-	}
-}
-
 //Input Stream Function
-void MatrixInput(){
+void MatrixInput(int arr[][3]){
 	bool mark = false;
 	int num = 0;
+	char cross = 'X', circle = 'O', winner = '0';
 	char curChar = cross;
 	cout <<" Initializing Input Stream !";
 	cout <<" Game Ready ! "<< endl;
-	matrixDisp();
-	
+	matrixDisp(arr);
+
 	while (mark == false){
 		mark = true;
 		cout << "\n " << curChar << "'s Turn now !" << endl;
@@ -113,13 +91,28 @@ void MatrixInput(){
 		cin >> num;
 		
 		system("cls");
-		cout <<"\n\t\t MCUBE COMPUTING SYSTEMS \n\t\t Tic Tac Toe ";
-		cout <<"\n Generating Index for Matrix !" << endl;
+		cout <<"\n\t\t MCUBE COMPUTING SYSTEMS \n\t\t Tic Tac Toe\n ";
 		
-		checker(&num, &mark, &curChar);
-		winner = algoMain(&mark);
-		matrixDisp();
+		// method for searching and replacing the number and keep game running till the last input
+		for (int i = 0; i <= 2; i++){
+			for (int j = 0; j <= 2 ; j++){
+				if (arr[i][j] == num){ 		//searching the number
+					arr[i][j] = curChar;		//replacing
+
+					if (curChar == cross) curChar = circle;	//inverting the turn of player (O or X)
+					else curChar = cross;
+				}
+
+				if (mark == true){				
+					if (arr[i][j] < 10) mark = false; //if true, game did not end
+				}
+			}
+		}
+
+		winner = algoMain(arr, &mark);
+		matrixDisp(arr);
 		
+		// winner detection method
 		if (winner == '0' && mark == true) cout <<"\n This Game is a Tie !";
 		else if (winner == '0') continue;
 		else cout <<"\n The winner is "<< winner; 
@@ -130,16 +123,16 @@ void MatrixInput(){
 
 int main(){
     char button = 'a';
-	
+	int arr[3][3] = {0};
 	while (button == 'a'){
 		system("cls");
-		cout <<"\n\t\t MCUBE COMPUTING SYSTEMS \n\t\t Tic Tac Toe ";
+		cout <<"\n\t\t MCUBE COMPUTING SYSTEMS \n\t\t Tic Tac Toe\n ";
 		
 		cout <<"\n Creating Matrix !  ";
-		matrixGen();
+		matrixGen(arr);
 		cout <<" Matrix Created !\n";
 		
-		MatrixInput();
+		MatrixInput(arr);
 		
 		cout <<"\n Enter 'a' for new game \n Enter 'e' to exit : ";
 		cin >> button; 
