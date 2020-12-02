@@ -3,8 +3,8 @@ using namespace std;
 
 //Global Variables
 int arr[3][4] = {0};
-char cross = 'X', circle = 'O', curChar, winner = '0';
-bool flip;
+char cross = 'X', circle = 'O', winner = '0';
+
 
 //Matrix Index Generation Function
 void matrixGen(){
@@ -25,7 +25,7 @@ void matrixDisp(){
 	for (int i = 0; i < 3; i++){
     cout << endl;
     
-	cout << i + 1 << "";
+	cout << i + 1;
 		for (int j = 0; j < 3; j++){
       		
 			if (arr[i][j] == 79) cout <<"  "<< 'O';		//ASCII 79 is O
@@ -36,33 +36,23 @@ void matrixDisp(){
 	cout << endl;
 }
 
-//Turn Selection Function
-char CharInvert(){
-	if (flip == true){
-		flip = false;
-		return cross;
-	}
-	else{
-		flip = true;
-		return circle;
-	}
-}
 
 //this is the main game algorithm 
 char algoMain(bool* mark){
 	int i = 0, j = 0;
 
 	//diagonal checking 
-	if (arr[i][j] == arr[i+1][j+1]){
-		if (arr[i+1][j+1] == arr[i+2][j+2]){
+	if (arr[0][0] == arr[1][1]){
+		if (arr[1][1] == arr[2][2]){
 			*mark = true;
-			return arr[i][j];
+			return arr[0][0];
 		}
 	}
-	if (arr[i][j+2] == arr[i+1][j+1]){
-		if (arr[i+1][j+1] == arr[i+2][j]){
+	
+	if (arr[0][2] == arr[1][1]){
+		if (arr[1][1] == arr[2][0]){
 			*mark = true;
-			return arr[i][j+2];
+			return arr[0][2];
 		}
 	}
 	
@@ -95,8 +85,11 @@ void checker(int* num, bool* mark, char* curChar){
 		for (int j = 0; j <= 2 ; j++){
 			if (arr[i][j] == *num){ 		//searching the number
 				arr[i][j] = *curChar;		//replacing
-				*curChar = CharInvert();	//inverting the turn of player (O or X)
+
+				if (*curChar == cross) *curChar = circle;	//inverting the turn of player (O or X)
+				else *curChar = cross;
 			}
+
 			if (*mark == true){				
 				if (arr[i][j] < 10) *mark = false; //if true, game did not end
 			}
@@ -108,10 +101,10 @@ void checker(int* num, bool* mark, char* curChar){
 void MatrixInput(){
 	bool mark = false;
 	int num = 0;
+	char curChar = cross;
 	cout <<" Initializing Input Stream !";
 	cout <<" Game Ready ! "<< endl;
 	matrixDisp();
-	curChar = CharInvert();
 	
 	while (mark == false){
 		mark = true;
